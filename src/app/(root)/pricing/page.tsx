@@ -71,6 +71,7 @@ export default async function PricingPage() {
               description="Базовые тарифы и проектные условия собраны в одном месте."
               plans={product.pricingPlans ?? []}
               productId={product.id}
+              isFree={product.isFree}
               productHref={PAGES.PRODUCT(product.id)}
             />
           </div>

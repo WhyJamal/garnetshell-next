@@ -57,6 +57,7 @@ export async function getCurrentOrganization(userId: string): Promise<Organizati
               image: true,
               imageAlt: true,
               featured: true,
+              appSsoUrl: true,
             },
           },
         },
@@ -74,6 +75,7 @@ export async function getCurrentOrganization(userId: string): Promise<Organizati
               image: true,
               imageAlt: true,
               featured: true,
+              appSsoUrl: true,
             },
           },
           pricingPlan: {

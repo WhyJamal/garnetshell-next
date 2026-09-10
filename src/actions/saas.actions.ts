@@ -1,25 +1,12 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import type { IProduct, IPricingPlan, IProjectBrief } from "@/types/product.types";
+import type { IProduct, IPricingPlan, IProductSolutionSection } from "@/types/product.types";
 import type {
   PrismaProductWithRelations,
 } from "@/types/prisma.types";
 
 type PrismaProduct = any;
-
-function toProjectBrief(project: any): IProjectBrief {
-  return {
-    id: project.id,
-    name: project.name,
-    slug: project.slug,
-    description: project.description,
-    status: project.status,
-    dueDate: project.dueDate ? project.dueDate.toISOString() : null,
-    organizationName: project.organization?.name ?? null,
-    organizationSlug: project.organization?.slug ?? null,
-  };
-}
 
 function toPricingPlan(plan: any): IPricingPlan {
   return {
@@ -49,6 +36,7 @@ function toProduct(product: PrismaProductWithRelations): IProduct {
     badge: product.badge,
     description: product.description,
     featured: product.featured,
+    isFree: product.isFree,
     theme: {
       from: product.themeFrom,
       via: product.themeVia,
@@ -56,7 +44,7 @@ function toProduct(product: PrismaProductWithRelations): IProduct {
       glow1: product.glow1,
       glow2: product.glow2,
     },
-    solutionSection: product.solutionSection ?? null,
+    solutionSection: product.solutionSection as IProductSolutionSection | null,
     
     pricingPlans:
       product.pricingPlans?.map((plan) =>
@@ -65,38 +53,12 @@ function toProduct(product: PrismaProductWithRelations): IProduct {
           project: plan.project ?? null,
         }),
       ) ?? [],
-    projects:
-      product.projects?.map((project) =>
-        toProjectBrief({
-          ...project,
-          organization: project.organization ?? null,
-        }),
-      ) ?? [],
   };
 }
 
 const productIncludes = {
   pricingPlans: {
     orderBy: [{ isPopular: "desc" as const }, { price: "asc" as const }],
-    // include: {
-    //   project: {
-    //     select: {
-    //       name: true,
-    //       slug: true,
-    //     },
-    //   },
-    // },
-  },
-  projects: {
-    orderBy: [{ dueDate: "asc" as const }, { createdAt: "asc" as const }],
-    include: {
-      organization: { 
-        select: {
-          name: true,
-          slug: true,
-        },
-      },
-    },
   },
 } as const;
 

@@ -8,6 +8,13 @@ model Product {
   image       String
   imageAlt    String
   featured    Boolean @default(false)
+  isFree      Boolean @default(false)
+
+  // Bu mahsulot xarid qilinganda tashqi ilovada avtomatik tashkilot
+  // ochib berish (provisioning) kerak bo'lsa — o'sha ilovaning manzili
+  // shu yerda. Bo'sh bo'lsa — oddiy "xarid" (provisioning'siz) sifatida qoladi.
+  appProvisionUrl String? // masalan: http://localhost:3001/api/integrations/provision
+  appSsoUrl       String? // masalan: http://localhost:3001/api/integrations/sso
 
   themeFrom String @default("#ffffff")
   themeVia  String @default("#f8fafc")

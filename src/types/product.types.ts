@@ -62,8 +62,8 @@ export interface IProduct {
   badge: string;
   description?: string | null;
   featured?: boolean;
+  isFree?: boolean;
   theme: ITheme;
   solutionSection?: IProductSolutionSection | null;
   pricingPlans?: IPricingPlan[];
-  projects?: IProjectBrief[];
 }

@@ -33,12 +33,14 @@ export function PricingSection({
   plans,
   productId,
   productHref,
+  isFree,
 }: {
   title?: string;
   description?: string;
   plans: IPricingPlan[];
   productId?: string;
   productHref?: string;
+  isFree?: boolean;
 }) {
   if (!plans.length) {
     return null;
@@ -87,7 +89,7 @@ export function PricingSection({
               <div className="mt-6">
                 <div className="flex items-end gap-2">
                   <span className="text-4xl font-semibold tracking-tight text-gray-900 dark:text-gray-100">
-                    {formatPrice(plan.price, plan.currency)}
+                    {isFree ? "Бесплатно" : formatPrice(plan.price, plan.currency)}
                   </span>
                 </div>
                 <p className="mt-1 text-sm text-gray-500 dark:text-gray-300">
@@ -107,9 +109,15 @@ export function PricingSection({
 
               <div className="mt-8">
                 {productId ? (
-                  <form action={purchaseProductAction}>
+                  <form action={purchaseProductAction} className="space-y-2">
                     <input type="hidden" name="productId" value={productId} />
                     <input type="hidden" name="pricingPlanId" value={plan.id} />
+                    <input
+                      type="text"
+                      name="organizationName"
+                      placeholder="Название магазина (необязательно)"
+                      className="w-full rounded-full border border-black/10 px-4 py-2 text-sm outline-none focus:border-black/25"
+                    />
                     <Button type="submit" className="w-full rounded-full">
                       Выбрать тариф
                     </Button>

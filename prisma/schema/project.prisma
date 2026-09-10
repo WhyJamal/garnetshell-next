@@ -17,6 +17,14 @@ model Project {
 
   budget Int?
 
+  // Tashqi ilovada (masalan Vol-mart) shu xarid uchun avtomatik
+  // yaratilgan tashkilot/foydalanuvchi — "Kirish" tugmasi shularga
+  // qarab SSO orqali kiritadi. endsAt — obuna muddati sifatida ham
+  // ishlatiladi (tugasa, tashqi ilovaga kirish bloklanadi).
+  externalOrgId  String?
+  externalUserId String?
+  provisionedAt  DateTime?
+
   organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 
   product Product @relation(fields: [productId], references: [id], onDelete: Restrict)

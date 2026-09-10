@@ -34,6 +34,7 @@ async function main() {
     {
       slug: "vol-mart",
       title: "Vol-mart",
+      isFree: true,
       subtitle:
         "Касса, склад и задолженности для магазина — единая система, готовая к работе за несколько минут.",
       badge: "Самый популярный",
@@ -42,6 +43,8 @@ async function main() {
       image: "/images/products/stock-market.webp",
       imageAlt: "Vol-mart — система управления магазином",
       featured: true,
+      appProvisionUrl: process.env.VOLMART_PROVISION_URL ?? null,
+      appSsoUrl: process.env.VOLMART_SSO_URL ?? null,
       themeFrom: "#ffffff",
       themeVia: "#fff7ed",
       themeTo: "#fef3c7",
@@ -89,6 +92,8 @@ async function main() {
       image: "/images/showcase/photo-1552664730-d307ca884978.webp",
       imageAlt: "Командный ERP",
       featured: false,
+      appProvisionUrl: null,
+      appSsoUrl: null,
       themeFrom: "#eff6ff",
       themeVia: "#dbeafe",
       themeTo: "#bfdbfe",
@@ -136,6 +141,8 @@ async function main() {
       image: "/images/showcase/photo-1551288049-bebda4e38f71.webp",
       imageAlt: "Финансы и аналитика",
       featured: false,
+      appProvisionUrl: null,
+      appSsoUrl: null,
       themeFrom: "#f8fafc",
       themeVia: "#e2e8f0",
       themeTo: "#cbd5e1",
@@ -196,6 +203,8 @@ async function main() {
         themeTo: product.themeTo,
         glow1: product.glow1,
         glow2: product.glow2,
+        appProvisionUrl: product.appProvisionUrl,
+        appSsoUrl: product.appSsoUrl,
       },
       create: {
         ...product,

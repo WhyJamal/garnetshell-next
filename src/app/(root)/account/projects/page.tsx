@@ -4,6 +4,7 @@ import {
   deleteProjectAction,
   getAccountWorkspaceAction,
 } from "@/actions/account.actions";
+import { enterExternalAppAction } from "@/actions/purchase.action";
 
 export const dynamic = "force-dynamic";
 
@@ -123,15 +124,28 @@ export default async function ProjectsPage({
                       <span className="text-xs text-black/35">
                         {formatDate(project.dueDate) ? `Дедлайн: ${formatDate(project.dueDate)}` : "Без дедлайна"}
                       </span>
-                      <form action={deleteProjectAction}>
-                        <input type="hidden" name="projectId" value={project.id} />
-                        <button
-                          type="submit"
-                          className="rounded-full px-3 py-1 text-[11px] font-medium text-black/40 transition hover:bg-red-50 hover:text-red-500"
-                        >
-                          Удалить
-                        </button>
-                      </form>
+                      <div className="flex items-center gap-1">
+                        {project.externalUserId && project.product?.appSsoUrl && (
+                          <form action={enterExternalAppAction}>
+                            <input type="hidden" name="projectId" value={project.id} />
+                            <button
+                              type="submit"
+                              className="rounded-full bg-[#1d1d1f] px-3 py-1 text-[11px] font-medium text-white transition hover:bg-black/80"
+                            >
+                              Войти
+                            </button>
+                          </form>
+                        )}
+                        <form action={deleteProjectAction}>
+                          <input type="hidden" name="projectId" value={project.id} />
+                          <button
+                            type="submit"
+                            className="rounded-full px-3 py-1 text-[11px] font-medium text-black/40 transition hover:bg-red-50 hover:text-red-500"
+                          >
+                            Удалить
+                          </button>
+                        </form>
+                      </div>
                     </div>
                   </div>
                 </article>

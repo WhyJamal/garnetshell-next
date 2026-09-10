@@ -58,7 +58,7 @@ export const organizationWorkspaceInclude = {
           image: true,
           imageAlt: true,
           featured: true,
-        },
+          },
       },
     },
   },
@@ -79,6 +79,7 @@ export const organizationWorkspaceInclude = {
           image: true,
           imageAlt: true,
           featured: true,
+          appSsoUrl: true,
         },
       },
 
