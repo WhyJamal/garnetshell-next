@@ -9,7 +9,7 @@ export default async function AccountLayout({
   const workspace = await getAccountWorkspaceAction();
 
   return (
-    <main className="min-h-screen bg-[#f5f5f7] text-[#1d1d1f]">
+    <main className="bg-[#f5f5f7] text-[#1d1d1f] transition-colors dark:bg-[#0b0d10] dark:text-white">
       <div className="mx-auto flex">
         <AccountSidebar
           user={{

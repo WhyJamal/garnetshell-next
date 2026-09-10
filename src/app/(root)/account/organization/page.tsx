@@ -13,15 +13,15 @@ export default async function OrganizationPage() {
   return (
     <div className="mx-auto max-w-2xl space-y-10">
       <header className="space-y-1">
-        <p className="text-xs font-semibold tracking-[0.22em] text-black/35 uppercase">
+        <p className="text-xs font-semibold tracking-[0.22em] text-black/35 uppercase dark:text-white/35">
           Организация
         </p>
-        <h1 className="text-3xl font-semibold tracking-tight text-[#1d1d1f]">
+        <h1 className="text-3xl font-semibold tracking-tight text-[#1d1d1f] dark:text-white">
           {organization ? organization.name : "Создать организацию"}
         </h1>
       </header>
 
-      <div className="h-px bg-black/5" />
+      <div className="h-px bg-black/5 dark:bg-white/10" />
 
       {!organization ? (
         <CreateOrganizationForm />
