@@ -139,6 +139,67 @@ export async function getAccountWorkspaceAction(): Promise<AccountWorkspace> {
   };
 }
 
+/**
+ * getCurrentOrganization() faqat ENG SO'NGGI tashkilotni qaytaradi
+ * (findFirst) — agar foydalanuvchi bir xil productni bir necha marta
+ * sotib olgan bo'lsa (har biri alohida Organization/Project yaratadi),
+ * eski xaridlar "Проекты" sahifasida ko'rinmay qolardi. Bu funksiya
+ * userga tegishli BARCHA tashkilotlardagi loyihalarni tekislab
+ * (flatten) qaytaradi — shu tashkilot nomi bilan birga.
+ */
+export async function getAllMyProjectsAction() {
+  const user = await requireUser();
+
+  const organizations = await prisma.organization.findMany({
+    where: {
+      OR: [{ ownerId: user.id }, { members: { some: { userId: user.id } } }],
+    },
+    orderBy: { createdAt: "desc" },
+    select: {
+      id: true,
+      name: true,
+      projects: {
+        orderBy: [{ dueDate: "asc" }, { createdAt: "asc" }],
+        include: {
+          product: {
+            select: {
+              id: true,
+              slug: true,
+              title: true,
+              subtitle: true,
+              badge: true,
+              image: true,
+              imageAlt: true,
+              featured: true,
+              appSsoUrl: true,
+            },
+          },
+          pricingPlan: {
+            select: {
+              id: true,
+              name: true,
+              slug: true,
+              price: true,
+              currency: true,
+              billingPeriod: true,
+              isPopular: true,
+              seats: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  return organizations.flatMap((org: (typeof organizations)[number]) =>
+    org.projects.map((project: (typeof org.projects)[number]) => ({
+      ...project,
+      organizationId: org.id,
+      organizationName: org.name,
+    }))
+  );
+}
+
 export async function updateProfileAction(formData: FormData) {
   const user = await requireUser();
 
@@ -205,11 +266,6 @@ export async function changePasswordAction(formData: FormData) {
 
 export async function deleteProjectAction(formData: FormData) {
   const user = await requireUser();
-  const organization = await getCurrentOrganization(user.id);
-
-  if (!organization) {
-    throw new Error("Организация не найдена");
-  }
 
   const projectId = normalizeText(formData.get("projectId"));
 
@@ -217,12 +273,17 @@ export async function deleteProjectAction(formData: FormData) {
     throw new Error("Проект не найден");
   }
 
-  const project = await prisma.project.findUnique({
-    where: { id: projectId },
-    select: { id: true, organizationId: true },
+  const project = await prisma.project.findFirst({
+    where: {
+      id: projectId,
+      organization: {
+        OR: [{ ownerId: user.id }, { members: { some: { userId: user.id } } }],
+      },
+    },
+    select: { id: true },
   });
 
-  if (!project || project.organizationId !== organization.id) {
+  if (!project) {
     throw new Error("Недостаточно прав");
   }
 

@@ -1,10 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
+import { cookies } from "next/headers";
 import {
   deleteProjectAction,
   getAccountWorkspaceAction,
+  getAllMyProjectsAction,
 } from "@/actions/account.actions";
 import { enterExternalAppAction } from "@/actions/purchase.action";
+import { LoginHintBanner } from "./_components/login-hint-banner";
 
 export const dynamic = "force-dynamic";
 
@@ -40,7 +43,21 @@ export default async function ProjectsPage({
 }) {
   const workspace = await getAccountWorkspaceAction();
   const organization = workspace.organization;
+  // Barcha tashkilotlar bo'yicha loyihalar (bitta product bir necha
+  // marta sotib olingan bo'lsa ham hech biri "yo'qolib qolmasin" uchun).
+  const projects = await getAllMyProjectsAction();
+  const showMultiOrgLabel = new Set(projects.map((p: { organizationId: string }) => p.organizationId)).size > 1;
   const { purchased } = await searchParams;
+
+  const loginHintRaw = (await cookies()).get("vm_login_hint")?.value;
+  let loginHint: { email: string; password: string } | null = null;
+  if (loginHintRaw) {
+    try {
+      loginHint = JSON.parse(loginHintRaw);
+    } catch {
+      loginHint = null;
+    }
+  }
 
   return (
     <div className="mx-auto max-w-2xl space-y-10">
@@ -57,6 +74,10 @@ export default async function ProjectsPage({
         <div className="rounded-2xl bg-emerald-50 border border-emerald-200 px-4 py-3 text-sm text-emerald-700">
           Продукт подключён и появился в списке ниже.
         </div>
+      )}
+
+      {loginHint && (
+        <LoginHintBanner email={loginHint.email} password={loginHint.password} />
       )}
 
       <div className="h-px bg-black/5" />
@@ -76,9 +97,9 @@ export default async function ProjectsPage({
       ) : (
         <>
           {/* Project list */}
-          {organization.projects.length > 0 ? (
+          {projects.length > 0 ? (
             <section className="space-y-3">
-              {organization.projects.map((project) => (
+              {projects.map((project: Awaited<ReturnType<typeof getAllMyProjectsAction>>[number]) => (
                 <article
                   key={project.id}
                   className="flex items-center gap-4 rounded-2xl bg-white border border-black/5 px-4 py-4 shadow-[0_2px_12px_rgba(0,0,0,0.04)]"
@@ -109,6 +130,7 @@ export default async function ProjectsPage({
                         <p className="mt-0.5 truncate text-xs text-black/40">
                           {project.product?.title}
                           {project.pricingPlan ? ` · ${project.pricingPlan.name}` : ""}
+                          {showMultiOrgLabel ? ` · ${project.organizationName}` : ""}
                         </p>
                       </div>
                       <span

@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import { PAGES } from "@/config/pages.config";
 import { getCurrentOrganization } from "@/actions/account.actions";
@@ -178,6 +179,13 @@ export async function purchaseProductAction(formData: FormData) {
 
       if (res.ok) {
         const data = await res.json();
+        console.log("[purchaseProductAction] provision response:", {
+          organizationId: data.organizationId,
+          userId: data.userId,
+          loginEmail: data.loginEmail,
+          hasLoginPassword: Boolean(data.loginPassword),
+          alreadyExisted: data.alreadyExisted,
+        });
         await prisma.project.update({
           where: { id: project.id },
           data: {
@@ -186,6 +194,31 @@ export async function purchaseProductAction(formData: FormData) {
             provisionedAt: new Date(),
           },
         });
+
+        // imart-next haqiqiy email bilan YANGI User yaratgan bo'lsa
+        // (ya'ni bu odam u yerda ilk marta paydo bo'lsa), parolni bir
+        // martalik, qisqa muddatli cookie orqali ko'rsatamiz — bazaga
+        // saqlanmaydi, faqat keyingi sahifa yuklanishida o'qib
+        // ko'rsatiladi va o'zi 60 soniyada eskiradi. Mavjud userga
+        // yangi tashkilot qo'shilgan bo'lsa (loginPassword yo'q) —
+        // hech narsa ko'rsatilmaydi, chunki u parolini allaqachon biladi.
+        if (data.loginPassword && data.loginEmail) {
+          const cookieStore = await cookies();
+          cookieStore.set(
+            "vm_login_hint",
+            JSON.stringify({
+              email: data.loginEmail,
+              password: data.loginPassword,
+            }),
+            {
+              httpOnly: true,
+              secure: process.env.NODE_ENV === "production",
+              sameSite: "lax",
+              path: "/",
+              maxAge: 60,
+            }
+          );
+        }
       } else {
         console.error("[purchaseProductAction] provision failed", await res.text());
       }
@@ -212,13 +245,23 @@ export async function enterExternalAppAction(formData: FormData) {
   const projectId = normalizeText(formData.get("projectId"));
   if (!projectId) throw new Error("Loyiha tanlanmagan");
 
-  const organization = await getCurrentOrganization(user.id);
-  if (!organization) throw new Error("Tashkilot topilmadi");
-
+  // MUHIM: bu yerda ataylab getCurrentOrganization() (faqat ENG
+  // SO'NGGI tashkilot) ishlatilmaydi — aks holda foydalanuvchi bir
+  // xil productni bir necha marta sotib olgan bo'lsa, ESKI
+  // tashkilotdagi loyihaga "Kirish" bosganda "Bu loyiha uchun kirish
+  // mavjud emas" xatosi chiqardi. O'rniga — shu projectId haqiqatan
+  // ham shu userga tegishli biror tashkilotniki ekanligi to'g'ridan
+  // tekshiriladi.
   const project = await prisma.project.findFirst({
-    where: { id: projectId, organizationId: organization.id },
+    where: {
+      id: projectId,
+      organization: {
+        OR: [{ ownerId: user.id }, { members: { some: { userId: user.id } } }],
+      },
+    },
     select: {
       externalUserId: true,
+      externalOrgId: true,
       product: { select: { appSsoUrl: true } },
     },
   });
@@ -227,6 +270,9 @@ export async function enterExternalAppAction(formData: FormData) {
     throw new Error("Bu loyiha uchun kirish mavjud emas");
   }
 
-  const token = signIntegrationToken({ userId: project.externalUserId });
+  const token = signIntegrationToken({
+    userId: project.externalUserId,
+    organizationId: project.externalOrgId,
+  });
   redirect(`${project.product.appSsoUrl}?token=${encodeURIComponent(token)}`);
 }

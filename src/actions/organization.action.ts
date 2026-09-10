@@ -1,6 +1,5 @@
 "use server"
 
-import { OrganizationWorkspace } from "@/types/account.types";
 import { getUniqueSlug, normalizeText, requireUser } from "@/utils/account.utils";
 import { getCurrentOrganization } from "@/actions/account.actions";
 import { prisma } from "@/lib/prisma";
@@ -14,80 +13,10 @@ export type OrganizationActionState = {
   message?: string;
 };
 
-async function getCurrentOrganization(userId: string): Promise<OrganizationWorkspace | null> {
-  return prisma.organization.findFirst({
-    where: {
-      OR: [{ ownerId: userId }, { members: { some: { userId } } }],
-    },
-    orderBy: { createdAt: "desc" },
-    include: {
-      owner: {
-        select: {
-          id: true,
-          name: true,
-          email: true,
-        },
-      },
-      members: {
-        orderBy: [{ joinedAt: "asc" }],
-        include: {
-          user: {
-            select: {
-              id: true,
-              name: true,
-              email: true,
-            },
-          },
-        },
-      },
-      products: {
-        include: {
-          product: {
-            select: {
-              id: true,
-              slug: true,
-              title: true,
-              subtitle: true,
-              badge: true,
-              image: true,
-              imageAlt: true,
-              featured: true,
-            },
-          },
-        },
-      },
-      projects: {
-        orderBy: [{ dueDate: "asc" }, { createdAt: "asc" }],
-        include: {
-          product: {
-            select: {
-              id: true,
-              slug: true,
-              title: true,
-              subtitle: true,
-              badge: true,
-              image: true,
-              imageAlt: true,
-              featured: true,
-            },
-          },
-          pricingPlan: {
-            select: {
-              id: true,
-              name: true,
-              slug: true,
-              price: true,
-              currency: true,
-              billingPeriod: true,
-              isPopular: true,
-              seats: true,
-            },
-          },
-        },
-      },
-    },
-  }) as Promise<OrganizationWorkspace | null>;
-}
+// Eslatma: getCurrentOrganization() shu faylning yuqorisida
+// "@/actions/account.actions"'dan import qilinadi — bu yerda avval
+// bir xil nomli lokal funksiya ham bor edi (import bilan to'qnashib,
+// uni soyada qoldirar edi). O'chirildi, endi faqat import ishlatiladi.
 
 export async function createOrganizationAction(
   _prevState: OrganizationActionState,
