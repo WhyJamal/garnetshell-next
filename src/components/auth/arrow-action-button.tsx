@@ -29,8 +29,12 @@ export function ArrowActionButton({
       {loading ? (
         <Loader2 className="h-5 w-5 animate-spin" />
       ) : (
-        <ArrowBigRight fill="#000" className="h-5 w-5 text-neutral-700" />
+        <ArrowBigRight
+          fill="currentColor"
+          className="h-5 w-5 text-neutral-700 dark:text-white"
+        />
       )}
     </Button>
   );
 }
+

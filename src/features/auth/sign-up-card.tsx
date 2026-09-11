@@ -11,6 +11,7 @@ import { signIn } from "next-auth/react";
 
 export default function SignUpCard() {
   const [step, setStep] = useState<"base" | "password">("base");
+
   const router = useRouter();
 
   const {
@@ -27,7 +28,6 @@ export default function SignUpCard() {
       confirmPassword: "",
     },
     schema: signUpSchema,
-
     onSubmit: async (data) => {
       await registerAction(data);
 
@@ -49,11 +49,11 @@ export default function SignUpCard() {
 
   return (
     <div className="w-full max-w-105">
-      <p className="mb-7 text-center text-[18px] leading-7 text-neutral-700">
+      <p className="mb-7 text-center text-[18px] leading-7 text-neutral-700 dark:text-white/70">
         Создайте учетную запись, чтобы продолжить.
       </p>
 
-      <div className="overflow-hidden rounded-2xl border border-neutral-300 shadow-sm">
+      <div className="overflow-hidden rounded-2xl border border-neutral-300 shadow-sm dark:border-white/10">
         <AuthFieldRow
           label="Имя пользователя"
           type="text"
@@ -62,12 +62,13 @@ export default function SignUpCard() {
           error={errors.name}
           onChange={handleChange}
           placeholder="Введите имя"
-          containerClassName={`border-b px-5 py-3 transition-colors duration-300 ${step === "password"
-            ? "bg-[#dfeaf8] border-neutral-300"
-            : form.name
-              ? "bg-yellow-100 border-neutral-200"
-              : "bg-white border-neutral-200"
-            }`}
+          containerClassName={`border-b px-5 py-3 transition-colors duration-300 ${
+            step === "password"
+              ? "border-neutral-300 bg-[#dfeaf8] dark:border-white/10 dark:bg-[#17202b]"
+              : form.name
+                ? "border-neutral-200 bg-yellow-100 dark:border-white/10 dark:bg-yellow-500/10"
+                : "border-neutral-200 bg-white dark:border-white/10 dark:bg-[#111418]"
+          }`}
         />
 
         <AuthFieldRow
@@ -78,19 +79,20 @@ export default function SignUpCard() {
           error={errors.email}
           onChange={handleChange}
           placeholder="Введите email"
-          containerClassName={`relative border-b px-5 py-3 transition-colors duration-300 ${step === "password"
-            ? "bg-[#dfeaf8] border-neutral-300"
-            : form.email
-              ? "bg-yellow-100 border-neutral-200"
-              : "bg-white border-neutral-200"
-            }`}
+          containerClassName={`relative border-b px-5 py-3 transition-colors duration-300 ${
+            step === "password"
+              ? "border-neutral-300 bg-[#dfeaf8] dark:border-white/10 dark:bg-[#17202b]"
+              : form.email
+                ? "border-neutral-200 bg-yellow-100 dark:border-white/10 dark:bg-yellow-500/10"
+                : "border-neutral-200 bg-white dark:border-white/10 dark:bg-[#111418]"
+          }`}
         >
           {step === "base" && form.name && form.email && (
             <ArrowActionButton
               onClick={handleNext}
               loading={loading}
               variant="outline"
-              className="absolute right-4 top-6 h-11 w-11 rounded-full border-2 border-neutral-400 bg-transparent hover:bg-white/40"
+              className="absolute right-4 top-6 h-11 w-11 rounded-full border-2 border-neutral-400 bg-transparent hover:bg-white/40 dark:border-white/30 dark:hover:bg-white/10"
             />
           )}
         </AuthFieldRow>
@@ -105,10 +107,11 @@ export default function SignUpCard() {
               value={form.password}
               onChange={handleChange}
               placeholder="Введите пароль"
-              containerClassName={`border-b px-5 py-3 transition-colors duration-300 ${form.password
-                ? "bg-yellow-100 border-neutral-200"
-                : "bg-white border-neutral-200"
-                }`}
+              containerClassName={`border-b px-5 py-3 transition-colors duration-300 ${
+                form.password
+                  ? "border-neutral-200 bg-yellow-100 dark:border-white/10 dark:bg-yellow-500/10"
+                  : "border-neutral-200 bg-white dark:border-white/10 dark:bg-[#111418]"
+              }`}
             />
 
             <AuthFieldRow
@@ -119,14 +122,17 @@ export default function SignUpCard() {
               value={form.confirmPassword}
               onChange={handleChange}
               placeholder="Повторите пароль"
-              containerClassName={`relative px-5 py-3 pr-14 transition-colors duration-300 ${form.confirmPassword ? "bg-yellow-100" : ""
-                }`}
+              containerClassName={`relative px-5 py-3 pr-14 transition-colors duration-300 ${
+                form.confirmPassword
+                  ? "bg-yellow-100 dark:bg-yellow-500/10"
+                  : "bg-white dark:bg-[#111418]"
+              }`}
             >
               {form.password && form.confirmPassword && (
                 <ArrowActionButton
                   onClick={handleSubmit}
                   loading={loading}
-                  className="absolute right-4 top-6 h-11 w-11 rounded-full border-2 border-neutral-400 bg-transparent hover:bg-white/40"
+                  className="absolute right-4 top-6 h-11 w-11 rounded-full border-2 border-neutral-400 bg-transparent hover:bg-white/40 dark:border-white/30 dark:hover:bg-white/10"
                 />
               )}
             </AuthFieldRow>
@@ -134,17 +140,18 @@ export default function SignUpCard() {
         )}
       </div>
 
-      <p className="mt-6 text-center text-sm leading-6 text-neutral-500">
+      <p className="mt-6 text-center text-sm leading-6 text-neutral-500 dark:text-white/40">
         Регистрируясь, вы соглашаетесь с{" "}
-        <span className="text-blue-600 cursor-pointer hover:underline">
+        <span className="cursor-pointer text-blue-600 hover:underline dark:text-blue-400">
           условиями использования
         </span>{" "}
         и{" "}
-        <span className="text-blue-600 cursor-pointer hover:underline">
+        <span className="cursor-pointer text-blue-600 hover:underline dark:text-blue-400">
           политикой конфиденциальности
-        </span>.
+        </span>
+        .
       </p>
-
     </div>
   );
 }
+

@@ -10,6 +10,7 @@ import { signIn } from "next-auth/react";
 
 export default function SignInCard() {
   const [step, setStep] = useState<"email" | "password">("email");
+
   const {
     values: form,
     errors,
@@ -30,7 +31,7 @@ export default function SignInCard() {
       });
 
       if (result?.ok) {
-        window.location.href = "/"; 
+        window.location.href = "/";
       } else {
         console.error(result?.error);
       }
@@ -41,6 +42,7 @@ export default function SignInCard() {
     if (!form.email) return;
 
     const isValid = validateField("email");
+
     if (!isValid) return;
 
     setStep("password");
@@ -48,11 +50,11 @@ export default function SignInCard() {
 
   return (
     <div className="w-full max-w-105">
-      <p className="mb-7 text-center text-[18px] leading-7 text-neutral-700">
+      <p className="mb-7 text-center text-[18px] leading-7 text-neutral-700 dark:text-white/70">
         Войдите в систему, используя свою учетную запись.
       </p>
 
-      <div className="overflow-hidden rounded-2xl border border-neutral-300 shadow-sm">
+      <div className="overflow-hidden rounded-2xl border border-neutral-300 bg-white shadow-sm dark:border-white/10 dark:bg-[#111418]">
         <AuthFieldRow
           label="Имя пользователя или Email"
           type="email"
@@ -62,30 +64,34 @@ export default function SignInCard() {
           onChange={handleChange}
           placeholder="Enter your email"
           disabled={step === "password"}
-          containerClassName={`border-b px-5 py-3 transition-colors duration-300 ${step === "password"
-            ? "bg-[#dfeaf8] border-neutral-300"
-            : form.email
-              ? "bg-yellow-100 border-neutral-200"
-              : "bg-white border-neutral-200"
-            }`}
+          containerClassName={`border-b px-5 py-3 transition-colors duration-300 ${
+            step === "password"
+              ? "border-neutral-300 bg-[#dfeaf8] dark:border-white/10 dark:bg-[#171b21]"
+              : form.email
+                ? "border-neutral-200 bg-yellow-100 dark:border-white/10 dark:bg-[#161a20]"
+                : "border-neutral-200 bg-white dark:border-white/10 dark:bg-[#111418]"
+          }`}
         />
 
         {step === "password" && (
           <AuthFieldRow
             label="Пароль"
             type="password"
-            name='password'
+            name="password"
             error={errors.password}
             value={form.password}
             onChange={handleChange}
             placeholder="Enter password"
-            containerClassName={`relative px-5 py-3 pr-14 transition-colors duration-300 ${form.password ? "bg-yellow-100" : "bg-white"
-              }`}
+            containerClassName={`relative px-5 py-3 pr-14 transition-colors duration-300 ${
+              form.password
+                ? "bg-yellow-100 dark:bg-[#161a20]"
+                : "bg-white dark:bg-[#111418]"
+            }`}
           >
             <ArrowActionButton
               onClick={handleSubmit}
               loading={loading}
-              className="absolute right-4 top-6 h-11 w-11 rounded-full border-2 border-neutral-400 bg-transparent hover:bg-white/40"
+              className="absolute right-4 top-6 h-11 w-11 rounded-full border-2 border-neutral-400 bg-transparent hover:bg-white/40 dark:border-white/30 dark:hover:bg-white/10"
             />
           </AuthFieldRow>
         )}
@@ -96,18 +102,21 @@ export default function SignInCard() {
               onClick={handleNext}
               loading={loading}
               variant="outline"
-              className="absolute right-4 -top-15 h-11 w-11 rounded-full border-2 border-neutral-400 bg-transparent hover:bg-white/40"
+              className="absolute -top-15 right-4 h-11 w-11 rounded-full border-2 border-neutral-400 bg-transparent hover:bg-white/40 dark:border-white/30 dark:hover:bg-white/10"
             />
           </div>
         )}
       </div>
 
       <div className="mt-7 text-center">
-        <Button variant="link" className="p-0 text-[17px] text-blue-600">
+        <Button
+          variant="link"
+          className="p-0 text-[17px] text-blue-600 dark:text-blue-400"
+        >
           Забыли пароль?
         </Button>
       </div>
-
     </div>
   );
 }
+
