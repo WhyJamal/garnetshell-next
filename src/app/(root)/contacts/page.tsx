@@ -1,160 +1,48 @@
-import { Button } from "@/components/ui/button";
-import { Globe, Mail, MapPin, Phone } from "lucide-react";
+import Link from "next/link";
+import { ArrowUpRight, Globe, Mail, MapPin, Phone } from "lucide-react";
+import { ContactForm } from "@/components/contact/contact-form";
 
-export default function ContactPage() {
+const contacts = [
+  { icon: MapPin, label: "Офис", value: "Фергана, Узбекистан" },
+  { icon: Mail, label: "Email", value: "info@narsil.uz", href: "mailto:info@narsil.uz" },
+  { icon: Phone, label: "Телефон", value: "+998 93 911 91 11", href: "tel:+998939119111" },
+  { icon: Globe, label: "Сайт", value: "narsil.uz", href: "https://narsil.uz" },
+];
+
+export default function ContactsPage() {
   return (
-    <section className="w-full bg-white dark:bg-black transition-colors">
-
-      {/* Header */}
-      <div className="bg-linear-to-r from-emerald-50 via-green-100 to-teal-100 dark:from-slate-950 dark:via-slate-900 dark:to-[#0F1B2D] transition-colors">
-        <div className="max-w-6xl mx-auto px-6 py-20 text-center">
-          <h1 className="text-5xl font-bold text-slate-900 dark:text-white">
-            Связаться с нами
-          </h1>
-
-          <p className="mt-4 text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-            Мы всегда открыты для новых проектов, партнерств и вопросов.
-            Напишите нам — мы ответим в ближайшее время.
-          </p>
+    <main className="min-h-screen bg-[#f5f5f7] text-[#1d1d1f] dark:bg-[#090909] dark:text-white">
+      <section className="border-b border-black/5 dark:border-white/10">
+        <div className="mx-auto max-w-6xl px-6 py-20 md:px-10 md:py-28">
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#1D4ED8]">Контакты</p>
+          <h1 className="mt-4 max-w-4xl text-5xl font-semibold tracking-[-0.04em] sm:text-6xl">Давайте обсудим, что нужно вашему бизнесу.</h1>
+          <p className="mt-6 max-w-2xl text-lg leading-8 text-black/55 dark:text-white/55">Расскажите о задаче, продукте или интеграции. Мы свяжемся с вами и предложим подходящий следующий шаг.</p>
         </div>
+      </section>
 
-        <div className="h-20 bg-linear-to-b from-transparent to-white dark:to-black" />
-      </div>
-
-      {/* Content */}
-      <div className="max-w-6xl mx-auto px-6 py-16 grid lg:grid-cols-2 gap-16">
-
-        {/* Left */}
+      <section className="mx-auto grid max-w-6xl gap-12 px-6 py-16 md:px-10 lg:grid-cols-[0.8fr_1.2fr] lg:py-24">
         <div>
-          <h2 className="text-2xl font-semibold text-slate-900 dark:text-white">
-            Контактная информация
-          </h2>
-
-          <p className="mt-6 text-slate-600 dark:text-slate-400 leading-7">
-            Вы можете связаться с нами любым удобным способом.
-          </p>
-
-          <div className="mt-10 space-y-6">
-
-            <div className="flex items-center gap-4">
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-100 dark:bg-emerald-500/10">
-                <MapPin className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
-              </div>
-
-              <div>
-                <p className="font-medium text-slate-900 dark:text-white">
-                  Адрес
-                </p>
-                <p className="text-slate-600 dark:text-slate-400">
-                  Фергана, Узбекистан
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4">
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-100 dark:bg-emerald-500/10">
-                <Mail className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
-              </div>
-
-              <div>
-                <p className="font-medium text-slate-900 dark:text-white">
-                  Email
-                </p>
-                <p className="text-slate-600 dark:text-slate-400">
-                  info@narsil.uz
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4">
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-100 dark:bg-emerald-500/10">
-                <Phone className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
-              </div>
-
-              <div>
-                <p className="font-medium text-slate-900 dark:text-white">
-                  Телефон
-                </p>
-                <p className="text-slate-600 dark:text-slate-400">
-                  +998 93 911 91 11
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4">
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-100 dark:bg-emerald-500/10">
-                <Globe className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
-              </div>
-
-              <div>
-                <p className="font-medium text-slate-900 dark:text-white">
-                  Website
-                </p>
-                <p className="text-slate-600 dark:text-slate-400">
-                  www.narsil.uz
-                </p>
-              </div>
-            </div>
+          <h2 className="text-2xl font-semibold tracking-tight">Контактная информация</h2>
+          <div className="mt-8 space-y-3">
+            {contacts.map(({ icon: Icon, label, value, href }) => {
+              const content = <><div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white dark:bg-[#111418]"><Icon className="h-5 w-5 text-[#1D4ED8]" /></div><div><p className="text-xs font-medium uppercase tracking-[0.18em] text-black/35 dark:text-white/35">{label}</p><p className="mt-1 text-sm font-medium">{value}</p></div></>;
+              return href ? <a key={label} href={href} className="flex items-center gap-4 rounded-3xl border border-black/5 bg-white p-4 transition hover:-translate-y-0.5 hover:shadow-sm dark:border-white/10 dark:bg-[#111418]">{content}</a> : <div key={label} className="flex items-center gap-4 rounded-3xl border border-black/5 bg-white p-4 dark:border-white/10 dark:bg-[#111418]">{content}</div>;
+            })}
           </div>
 
-          <div className="mt-10 flex flex-wrap gap-3">
-            {["Telegram", "Instagram", "LinkedIn"].map((item) => (
-              <span
-                key={item}
-                className="rounded-full border border-slate-200 bg-slate-100 px-4 py-2 text-sm text-slate-700 transition-colors dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300"
-              >
-                {item}
-              </span>
-            ))}
+          <div className="mt-8 rounded-3xl bg-[#1d1d1f] p-6 text-white dark:bg-white dark:text-black">
+            <p className="text-xs uppercase tracking-[0.25em] opacity-50">Быстрый путь</p>
+            <h3 className="mt-3 text-xl font-semibold">Уже знаете, какой продукт нужен?</h3>
+            <p className="mt-2 text-sm leading-6 opacity-65">Посмотрите каталог и выберите продукт, который подходит под вашу задачу.</p>
+            <Link href="/products" className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium">Открыть продукты <ArrowUpRight className="h-4 w-4" /></Link>
           </div>
         </div>
 
-        {/* Right */}
-        <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-colors dark:border-slate-800 dark:bg-slate-900">
-          <h3 className="text-xl font-semibold text-slate-900 dark:text-white">
-            Написать сообщение
-          </h3>
-
-          <form className="mt-6 space-y-4">
-
-            <input
-              type="text"
-              placeholder="Ваше имя"
-              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-950 dark:text-white dark:placeholder:text-slate-500"
-            />
-
-            <input
-              type="email"
-              placeholder="Email"
-              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-950 dark:text-white dark:placeholder:text-slate-500"
-            />
-
-            <input
-              type="text"
-              placeholder="Тема"
-              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-950 dark:text-white dark:placeholder:text-slate-500"
-            />
-
-            <textarea
-              rows={5}
-              placeholder="Сообщение..."
-              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-950 dark:text-white dark:placeholder:text-slate-500"
-            />
-
-            <Button
-              type="submit"
-              size="lg"
-              className="w-full"
-            >
-              Отправить сообщение
-            </Button>
-          </form>
+        <div className="rounded-[2rem] border border-black/5 bg-white p-6 shadow-[0_2px_24px_rgba(0,0,0,0.04)] md:p-8 dark:border-white/10 dark:bg-[#111418] dark:shadow-none">
+          <div className="mb-7"><p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#1D4ED8]">Сообщение</p><h2 className="mt-2 text-2xl font-semibold tracking-tight">Напишите нам</h2></div>
+          <ContactForm />
         </div>
-
-      </div>
-
-      {/* Bottom */}
-      <div className="h-24 bg-linear-to-b from-transparent to-slate-50 dark:to-black" />
-    </section>
+      </section>
+    </main>
   );
 }

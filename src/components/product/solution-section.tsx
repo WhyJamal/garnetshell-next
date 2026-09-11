@@ -65,7 +65,6 @@ function MediaBlock({ media }: { media: IProductSolutionSection["media"] }) {
 
 export function SolutionSection({ data }: SolutionSectionProps) {
     const ref = useRef<HTMLDivElement>(null);
-    //bg-[#0f172a]
     return (
         <section className="py-20 px-6 md:px-16 border-t">
             <div ref={ref} className="mx-auto max-w-6xl">

@@ -42,8 +42,6 @@ export default async function ERPProductsPage() {
 
       <section className="grid grid-cols-1 gap-3 p-3 md:grid-cols-2">
         {products.map((product: IProduct, index: number) => {
-          const nextDeadline = product.projects?.[0]?.dueDate ?? null;
-          
           return (
             <div
               key={product.id}
@@ -124,7 +122,7 @@ export default async function ERPProductsPage() {
           <h2 className="text-4xl font-bold mb-6">
             Единая платформа для управления бизнесом
           </h2>
-          <p className="text-black/60 text-lg leading-relaxed">
+          <p className="text-black/60 text-lg leading-relaxed dark:text-white/60">
             Продукты объединяются в одну базу, а организации видят свои проекты, сроки и тарифы без ручной синхронизации.
           </p>
         </div>
