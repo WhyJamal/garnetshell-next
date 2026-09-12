@@ -33,16 +33,15 @@ export default function HeaderIcons({
                 <Search size={18} />
             </button>
 
-            <div
+            <button
                 onClick={onProfileClick}
+                aria-label="Профиль"
                 className={`cursor-pointer transition-colors ${
                     profilePinned ? "text-[#1d1d1f] dark:text-[#f5f5f7]" : "hover:text-[#1d1d1f] dark:hover:text-[#6e6e73]"
                 }`}
             >
                 <CircleUserRound size={20}/>
-            </div>
-
-            {/* <Button size="sm">Sign in</Button> */}
+            </button>
 
             <button
                 className="md:hidden"

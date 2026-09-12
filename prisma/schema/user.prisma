@@ -6,6 +6,13 @@ model User {
 
   profile Profile?
 
+  emailVerified           Boolean   @default(true)
+  verificationCode        String?
+  verificationCodeExpiry  DateTime?
+
+  resetCode        String?
+  resetCodeExpiry  DateTime?
+
   organizationMemberships OrganizationMember[]
   ownedOrganizations      Organization[]       @relation("OrganizationOwner")
 }

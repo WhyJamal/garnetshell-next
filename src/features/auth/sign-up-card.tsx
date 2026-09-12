@@ -8,9 +8,11 @@ import { useForm } from "@/hooks/use-form";
 import { signUpSchema } from "@/schema/sign-up-schema";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { PAGES } from "@config/pages.config";
 
 export default function SignUpCard() {
   const [step, setStep] = useState<"base" | "password">("base");
+  const [formError, setFormError] = useState("");
 
   const router = useRouter();
 
@@ -29,17 +31,28 @@ export default function SignUpCard() {
     },
     schema: signUpSchema,
     onSubmit: async (data) => {
-      await registerAction(data);
+      setFormError("");
 
-      const result = await signIn("credentials", {
+      const result = await registerAction(data);
+
+      if (!result.success) {
+        setFormError(result.error);
+        return;
+      }
+
+      const signInResult = await signIn("credentials", {
         email: data.email,
         password: data.password,
         redirect: false,
       });
 
-      if (!result?.error) {
-        router.replace("/account");
+      if (signInResult?.error) {
+        setFormError("Аккаунт создан, но войти не удалось. Попробуйте войти вручную.");
+        router.push(PAGES.SIGN_IN);
+        return;
       }
+
+      router.push(PAGES.VERIFY_EMAIL);
     },
   });
 
@@ -139,6 +152,12 @@ export default function SignUpCard() {
           </>
         )}
       </div>
+
+      {formError && (
+        <p className="mt-4 text-center text-sm text-red-500 dark:text-red-400">
+          {formError}
+        </p>
+      )}
 
       <p className="mt-6 text-center text-sm leading-6 text-neutral-500 dark:text-white/40">
         Регистрируясь, вы соглашаетесь с{" "}

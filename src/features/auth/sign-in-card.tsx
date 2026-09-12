@@ -7,6 +7,8 @@ import { useState } from "react";
 import { useForm } from "@/hooks/use-form";
 import { signInSchema } from "@/schema/sign-in-schema";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
+import { PAGES } from "@config/pages.config";
 
 export default function SignInCard() {
   const [step, setStep] = useState<"email" | "password">("email");
@@ -110,10 +112,11 @@ export default function SignInCard() {
 
       <div className="mt-7 text-center">
         <Button
+          asChild
           variant="link"
           className="p-0 text-[17px] text-blue-600 dark:text-blue-400"
         >
-          Забыли пароль?
+          <Link href={PAGES.FORGOT_PASSWORD}>Забыли пароль?</Link>
         </Button>
       </div>
     </div>

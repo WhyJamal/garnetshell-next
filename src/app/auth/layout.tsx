@@ -17,26 +17,39 @@ export default function AuthLayout({
 
     const isSignIn = pathname === PAGES.SIGN_IN;
 
+    const titles: Record<string, string> = {
+        [PAGES.SIGN_IN]: "Вход",
+        [PAGES.SIGN_UP]: "Регистрация",
+        [PAGES.VERIFY_EMAIL]: "Подтверждение email",
+        [PAGES.FORGOT_PASSWORD]: "Восстановление пароля",
+        [PAGES.RESET_PASSWORD]: "Новый пароль",
+    };
+
+    const title = titles[pathname] ?? (isSignIn ? "Вход" : "Регистрация");
+    const showAuthToggle = pathname === PAGES.SIGN_IN || pathname === PAGES.SIGN_UP;
+
     return (
         <div className="min-h-screen bg-white px-4 py-4 text-[#1d1d1f] transition-colors dark:bg-[#0b0d10] dark:text-white">
             <div className="mx-auto w-full max-w-5xl space-y-9">
                 <div className="flex items-center justify-between border-b border-neutral-300 pb-4 dark:border-white/10">
                     <h1 className="text-[32px] font-normal tracking-tight text-neutral-900 dark:text-white">
-                        {isSignIn ? "Вход" : "Регистрация"}
+                        {title}
                     </h1>
 
                     <div className="flex items-center gap-2">
                         <ToggleTheme />
 
-                        <Button
-                            asChild
-                            variant="link"
-                            className="text-lg font-normal text-neutral-500 dark:text-white/50"
-                        >
-                            <Link href={isSignIn ? PAGES.SIGN_UP : PAGES.SIGN_IN}>
-                                {isSignIn ? "Sign up" : "Sign in"}
-                            </Link>
-                        </Button>
+                        {showAuthToggle && (
+                            <Button
+                                asChild
+                                variant="link"
+                                className="text-lg font-normal text-neutral-500 dark:text-white/50"
+                            >
+                                <Link href={isSignIn ? PAGES.SIGN_UP : PAGES.SIGN_IN}>
+                                    {isSignIn ? "Sign up" : "Sign in"}
+                                </Link>
+                            </Button>
+                        )}
                     </div>
                 </div>
 

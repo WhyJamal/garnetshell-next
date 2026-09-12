@@ -53,6 +53,7 @@ export async function requireUser() {
       name: true,
       email: true,
       password: true,
+      emailVerified: true,
       profile: {
         select: {
           bio: true,
@@ -63,6 +64,10 @@ export async function requireUser() {
 
   if (!user) {
     redirect(LOGIN_ROUTE);
+  }
+
+  if (!user.emailVerified) {
+    redirect(PAGES.VERIFY_EMAIL);
   }
 
   return user;

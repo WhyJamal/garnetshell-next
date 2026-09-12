@@ -1,5 +1,7 @@
 "use client";
 
+import { useMemo } from "react";
+import { useSession } from "next-auth/react";
 import { useHeaderMenu } from "@/components/hooks/use-header-menu";
 import { menuItems } from "@config/header.config";
 import DesktopNav from "./desktop-nav";
@@ -12,6 +14,25 @@ import { PAGES } from "@/config/pages.config";
 import { Logo } from "../logo";
 
 export default function Header() {
+
+    const { data: session, status } = useSession();
+    const isAuthed = status === "authenticated" && !!session?.user;
+
+    const visibleMenuItems = useMemo(() => {
+        return menuItems.map((item) => {
+            if (item.label !== "profile") return item;
+
+            return {
+                ...item,
+                columns: item.columns.map((column) => ({
+                    ...column,
+                    links: column.links.filter(
+                        (link) => link.href !== PAGES.SIGN_IN || !isAuthed
+                    ),
+                })),
+            };
+        });
+    }, [isAuthed]);
 
     const {
         query,
@@ -38,7 +59,7 @@ export default function Header() {
         onDropdownLeave,
         onSearchOverlayEnter,
         onSearchOverlayLeave,
-    } = useHeaderMenu({ menuItems, closeDelay: 150 });
+    } = useHeaderMenu({ menuItems: visibleMenuItems, closeDelay: 150 });
 
     return (
         <div className="sticky top-0 z-50">
@@ -54,7 +75,7 @@ export default function Header() {
                     </Link>
 
                     <DesktopNav
-                        menuItems={menuItems}
+                        menuItems={visibleMenuItems}
                         activeItem={activeItem}
                         onMouseEnter={onNavEnter}
                         onMouseLeave={onNavLeave}
@@ -87,7 +108,7 @@ export default function Header() {
 
             {mobileOpen && (
                 <MobileMenu
-                    menuItems={menuItems}
+                    menuItems={visibleMenuItems}
                     activeMobileMenu={activeMobileMenu}
                     activeMobileItem={activeMobileItem}
                     onClose={closeMobile}

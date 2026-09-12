@@ -2,7 +2,8 @@
 
 import bcrypt from "bcrypt";
 import { prisma } from "@/lib/prisma";
-import { slugifyText } from "@lib/slug";
+import { generateOtpCode, getOtpExpiry } from "@/lib/otp";
+import { sendVerificationEmail } from "@lib/mailer";
 
 type RegisterInput = {
   name: string;
@@ -11,24 +12,15 @@ type RegisterInput = {
   confirmPassword: string;
 };
 
-async function makeUniqueOrganizationSlug(baseName: string) {
-  const baseSlug = slugifyText(baseName);
-  let slug = baseSlug;
-  let counter = 2;
+type ActionResult =
+  | { success: true }
+  | { success: false; error: string };
 
-  while (await prisma.organization.findUnique({ where: { slug } })) {
-    slug = `${baseSlug}-${counter}`;
-    counter += 1;
-  }
-
-  return slug;
-}
-
-export async function registerAction(data: RegisterInput) {
+export async function registerAction(data: RegisterInput): Promise<ActionResult> {
   const { name, email, password, confirmPassword } = data;
 
   if (password !== confirmPassword) {
-    throw new Error("Пароли не совпадают");
+    return { success: false, error: "Пароли не совпадают" };
   }
 
   const exists = await prisma.user.findUnique({
@@ -36,32 +28,24 @@ export async function registerAction(data: RegisterInput) {
   });
 
   if (exists) {
-    throw new Error("Этот email уже зарегистрирован");
+    return { success: false, error: "Этот email уже зарегистрирован" };
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  const user = await prisma.user.create({
+  const code = generateOtpCode();
+
+  await prisma.user.create({
     data: {
       name,
       email,
       password: hashedPassword,
+      emailVerified: false,
+      verificationCode: code,
+      verificationCodeExpiry: getOtpExpiry(),
     },
   });
 
-  // const orgSlug = await makeUniqueOrganizationSlug(name || email.split("@")[0]);
-  // const organization = await prisma.organization.create({
-  //   data: {
-  //     name: `${name || email.split("@")[0]} workspace`,
-  //     slug: orgSlug,
-  //     ownerId: user.id,
-  //     members: {
-  //       create: {
-  //         user: { connect: { id: user.id } },
-  //         role: "OWNER",
-  //       },
-  //     },
-  //   },
-  // });
+  await sendVerificationEmail(email, code);
 
-  return { ok: true };
+  return { success: true };
 }
