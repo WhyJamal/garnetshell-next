@@ -136,7 +136,7 @@ export async function updateOrganizationAction(formData: FormData) {
           where: { slug: candidate },
           select: { id: true },
         });
-        return Boolean(row) && row.id !== organization.id;
+        return row?.id !== undefined && row.id !== organization.id;
       });
 
   await prisma.organization.update({

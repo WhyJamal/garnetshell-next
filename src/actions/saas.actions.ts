@@ -5,6 +5,8 @@ import type { IProduct, IPricingPlan, IProductSolutionSection } from "@/types/pr
 import type {
   PrismaProductWithRelations,
 } from "@/types/prisma.types";
+import { Prisma } from "@/generated/prisma/client";
+
 
 type PrismaProduct = any;
 
@@ -58,9 +60,10 @@ function toProduct(product: PrismaProductWithRelations): IProduct {
 
 const productIncludes = {
   pricingPlans: {
-    orderBy: [{ isPopular: "desc" as const }, { price: "asc" as const }],
+    orderBy: [{ isPopular: "desc" }, { price: "asc" }],
   },
-} as const;
+  projects: true,
+} satisfies Prisma.ProductInclude;
 
 export async function getProductsAction() {
   const products = await prisma.product.findMany({
