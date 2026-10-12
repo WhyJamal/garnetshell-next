@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import { ArrowUpRight, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { CONFIG } from "@/config/app.config";
 
 export function ContactForm() {
   const [sent, setSent] = useState(false);
@@ -23,7 +24,7 @@ export function ContactForm() {
       message,
     ].join("\\n");
 
-    window.location.href = `mailto:info@narsil.uz?subject=${encodeURIComponent(topic)}&body=${encodeURIComponent(body)}`;
+    window.location.href = `mailto:info@${CONFIG.appDomain}?subject=${encodeURIComponent(topic)}&body=${encodeURIComponent(body)}`;
     setSent(true);
   }
 

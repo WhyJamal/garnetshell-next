@@ -1,3 +1,4 @@
+import { CONFIG } from "@/config/app.config";
 import nodemailer from "nodemailer";
 
 let transporter: ReturnType<typeof nodemailer.createTransport> | null = null;
@@ -43,7 +44,7 @@ async function sendMail(to: string, subject: string, html: string) {
 export async function sendVerificationEmail(to: string, code: string) {
   await sendMail(
     to,
-    "Narsil — код подтверждения email",
+    `${CONFIG.appName} — код подтверждения email`,
     `<div style="font-family:sans-serif;font-size:15px;color:#111">
       <p>Чтобы завершить регистрацию, введите этот код:</p>
       <p style="font-size:28px;font-weight:700;letter-spacing:4px">${code}</p>
@@ -55,7 +56,7 @@ export async function sendVerificationEmail(to: string, code: string) {
 export async function sendPasswordResetEmail(to: string, code: string) {
   await sendMail(
     to,
-    "Narsil — код для сброса пароля",
+    `${CONFIG.appName} — код для сброса пароля`,
     `<div style="font-family:sans-serif;font-size:15px;color:#111">
       <p>Чтобы сбросить пароль, введите этот код:</p>
       <p style="font-size:28px;font-weight:700;letter-spacing:4px">${code}</p>

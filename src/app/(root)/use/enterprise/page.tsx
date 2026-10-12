@@ -1,4 +1,5 @@
 import { InfoPage } from "@/components/marketing/info-page";
+import { CONFIG } from "@/config/app.config";
 import { PAGES } from "@/config/pages.config";
 
 export default function EnterprisePage() { 
@@ -6,7 +7,7 @@ export default function EnterprisePage() {
         <InfoPage 
             eyebrow="Для предприятий" 
             title="Корпоративная платформа под сложные процессы и интеграции." 
-            description="Для крупных организаций важны управляемость, интеграции и контроль данных. Именно вокруг этого строится Narsil." 
+            description={`Для крупных организаций важны управляемость, интеграции и контроль данных. Именно вокруг этого строится ${CONFIG.appName}.`} 
             cta={{label:"Обсудить архитектуру",href:PAGES.CONTACTS}} 
             items={[
                 {title:"Сложные структуры",text:"Организации, подразделения, проекты и роли можно выстраивать в единой модели."},

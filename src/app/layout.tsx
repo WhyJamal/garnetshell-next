@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import Providers from "./providers";
+import { CONFIG } from "@/config/app.config";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -20,8 +21,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Narsil",
-  description: "Narsil - Разработка корпоративного ПО",
+  title: CONFIG.appName,
+  description: CONFIG.appDescription,
 };
 
 export default function RootLayout({

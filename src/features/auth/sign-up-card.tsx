@@ -9,6 +9,7 @@ import { signUpSchema } from "@/schema/sign-up-schema";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { PAGES } from "@config/pages.config";
+import Link from "next/link";
 
 export default function SignUpCard() {
   const [step, setStep] = useState<"base" | "password">("base");
@@ -161,14 +162,18 @@ export default function SignUpCard() {
 
       <p className="mt-6 text-center text-sm leading-6 text-neutral-500 dark:text-white/40">
         Регистрируясь, вы соглашаетесь с{" "}
+        <Link href={PAGES.TERMS_OF_SERVICE}>
         <span className="cursor-pointer text-blue-600 hover:underline dark:text-blue-400">
           условиями использования
         </span>{" "}
+        </Link>
         и{" "}
+        <Link href={PAGES.PRIVACY_POLICY}>
         <span className="cursor-pointer text-blue-600 hover:underline dark:text-blue-400">
           политикой конфиденциальности
         </span>
         .
+        </Link>
       </p>
     </div>
   );

@@ -30,7 +30,7 @@ export default function MobileMenu({
             />
 
             <div
-                className="fixed inset-x-0 top-0 z-50 bg-white flex flex-col overflow-hidden"
+                className="fixed inset-x-0 top-0 z-50 bg-white dark:bg-black flex flex-col overflow-hidden"
                 style={{ maxHeight: "80vh" }}
             >
                 <div className="flex items-center justify-between px-4 py-2 shrink-0">
@@ -62,7 +62,7 @@ export default function MobileMenu({
                                     <button
                                         key={item.label}
                                         onClick={() => onOpenMenu(item.label)}
-                                        className="text-left px-10 py-3 font-bold hover:bg-gray-50 transition-colors"
+                                        className="text-left px-10 py-3 font-bold transition-colors"
                                     >
                                         {item.label}
                                     </button>

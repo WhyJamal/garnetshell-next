@@ -19,4 +19,7 @@ export const PAGES = {
     ABOUT_US: '/about-us',
     CONTACTS: '/contacts',
     SUPPORT: '/support',
+
+    PRIVACY_POLICY: '/privacy',
+    TERMS_OF_SERVICE: '/terms',
 }

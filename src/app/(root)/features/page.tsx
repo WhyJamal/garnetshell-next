@@ -1,10 +1,11 @@
 import { InfoPage } from "@/components/marketing/info-page";
+import { CONFIG } from "@/config/app.config";
 export default function FeaturesPage() { 
     return ( 
         <InfoPage 
             eyebrow="Функции" 
             title="Всё необходимое для ежедневной работы — в одном месте." 
-            description="Narsil помогает организовать ключевые процессы бизнеса без перегруженного интерфейса." 
+            description={`${CONFIG.appName} помогает организовать ключевые процессы бизнеса без перегруженного интерфейса.`} 
             items={[
                 { title: "Единое рабочее пространство", text: "Организуйте продукты, проекты и рабочие данные вокруг одной понятной структуры." },
                 { title: "Процессы и роли", text: "Разделяйте доступ и ответственность так, чтобы каждый видел нужную ему информацию." },

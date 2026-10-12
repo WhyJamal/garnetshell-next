@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { Play, Pause, RotateCcw } from "lucide-react"
+import { CONFIG } from "@/config/app.config"
 
 type VideoHeroProps = {
   isPlaying: boolean;
@@ -51,7 +52,7 @@ export default function VideoHero({ isPlaying, onToggle }: VideoHeroProps) {
             <div className="mb-4 flex items-center gap-2">
               <div className="relative flex h-7 w-7 items-center justify-center rounded-md bg-white/10 backdrop-blur-sm border border-white/20 overflow-hidden">
                 <Image
-                  src="/logo.white.png"
+                  src={CONFIG.appLogo}
                   alt="logo"
                   fill
                   sizes="120px"

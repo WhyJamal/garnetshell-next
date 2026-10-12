@@ -5,6 +5,7 @@ import * as React from "react";
 import Link from "next/link";
 import { ArrowRight, BookOpen, Mail, MessageCircle, Search, ShieldCheck, Wrench } from "lucide-react";
 import { PAGES } from "@/config/pages.config";
+import { CONFIG } from "@/config/app.config";
 
 const topics = [
   { title: "Начало работы", text: "Подключение продукта, организация и первый проект.", icon: BookOpen },
@@ -28,7 +29,7 @@ export function SupportCenter() {
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           placeholder="Поиск по темам поддержки..."
-          className="h-12 w-full rounded-full border border-black/10 bg-white pl-11 pr-5 text-sm outline-none shadow-sm transition focus:border-black/20 dark:border-white/10 dark:bg-white/[0.04] dark:text-white dark:focus:border-white/20"
+          className="h-12 w-full rounded-full border border-black/10 bg-white pl-11 pr-5 text-sm outline-none shadow-sm transition focus:border-black/20 dark:border-white/10 ark:bg-white/4 dark:text-white dark:focus:border-white/20"
         />
       </div>
 
@@ -57,10 +58,10 @@ export function SupportCenter() {
       )}
 
       <div className="mt-12 grid gap-3 sm:grid-cols-2">
-        <a href="mailto:info@narsil.uz" className="rounded-3xl border border-black/5 bg-white p-5 dark:border-white/10 dark:bg-[#111418]">
+        <a href={`mailto:info@${CONFIG.appDomain}`} className="rounded-3xl border border-black/5 bg-white p-5 dark:border-white/10 dark:bg-[#111418]">
           <Mail className="h-5 w-5 text-[#1D4ED8]" />
           <p className="mt-4 text-sm font-semibold text-[#1d1d1f] dark:text-white">Email поддержки</p>
-          <p className="mt-1 text-sm text-black/45 dark:text-white/45">info@narsil.uz</p>
+          <p className="mt-1 text-sm text-black/45 dark:text-white/45">{CONFIG.appContact.email}</p>
         </a>
         <Link href={PAGES.CONTACTS} className="rounded-3xl border border-black/5 bg-white p-5 transition hover:border-black/10 dark:border-white/10 dark:bg-[#111418] dark:hover:border-white/20">
           <MessageCircle className="h-5 w-5 text-[#1D4ED8]" />

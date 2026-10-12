@@ -75,7 +75,7 @@ export function Footer() {
 
       <div className="border-t">
         <div className="max-w-5xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-2 text-xs text-gray-400">
-          <p>© 2026 <span className="text-blue-700">Narsil</span>. All rights reserved.</p>
+          <p>© 2026 <span className="text-black dark:text-white">Garnet</span><span className="text-red-700">shell</span>. All rights reserved.</p>
 
           <div className="flex gap-4">
             <Link href="/privacy">Privacy</Link>

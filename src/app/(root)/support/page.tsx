@@ -1,4 +1,5 @@
 import { SupportCenter } from "@/components/support/support-center";
+import { CONFIG } from "@/config/app.config";
 
 export default function SupportPage() {
   return (
@@ -12,7 +13,7 @@ export default function SupportPage() {
             Помощь, когда она нужна.
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-black/55 dark:text-white/55">
-            Найдите нужную тему или сразу свяжитесь с командой Narsil.
+            Найдите нужную тему или сразу свяжитесь с командой {CONFIG.appName}.
           </p>
           <div className="mx-auto max-w-4xl text-left">
             <SupportCenter />

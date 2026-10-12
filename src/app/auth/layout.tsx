@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { PAGES } from "@/config/pages.config";
 import { ToggleTheme } from "@/components/toggle-theme";
-import { Logo } from "@/components/logo";
+import { Logo, LogoType } from "@/components/logo";
 
 export default function AuthLayout({
     children,
@@ -46,7 +46,7 @@ export default function AuthLayout({
                                 className="text-lg font-normal text-neutral-500 dark:text-white/50"
                             >
                                 <Link href={isSignIn ? PAGES.SIGN_UP : PAGES.SIGN_IN}>
-                                    {isSignIn ? "Sign up" : "Sign in"}
+                                    {isSignIn ? "Регистрация" : "Вход"}
                                 </Link>
                             </Button>
                         )}
@@ -54,14 +54,14 @@ export default function AuthLayout({
                 </div>
 
                 <div className="flex items-center justify-center mb-10">
-                    <Logo />
+                    <Logo logo={LogoType.secondary}/>
                 </div>
 
                 <div className="flex justify-center">
                     {children}
                 </div>
 
-                <div className="mt-10 text-center">
+                {/* <div className="mt-10 text-center">
                     <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-blue-50 dark:bg-blue-500/10">
                         <div className="flex items-center gap-1">
                             <div className="h-5 w-4 rounded-full bg-blue-500/90" />
@@ -75,7 +75,7 @@ export default function AuthLayout({
                     >
                         Узнайте, как используются ваши данные...
                     </Button>
-                </div>
+                </div> */}
             </div>
         </div>
     );

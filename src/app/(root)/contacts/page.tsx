@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { ArrowUpRight, Globe, Mail, MapPin, Phone } from "lucide-react";
 import { ContactForm } from "@/components/contact/contact-form";
+import { CONFIG } from "@/config/app.config";
 
 const contacts = [
   { icon: MapPin, label: "Офис", value: "Фергана, Узбекистан" },
-  { icon: Mail, label: "Email", value: "info@narsil.uz", href: "mailto:info@narsil.uz" },
-  { icon: Phone, label: "Телефон", value: "+998 93 911 91 11", href: "tel:+998939119111" },
-  { icon: Globe, label: "Сайт", value: "narsil.uz", href: "https://narsil.uz" },
+  { icon: Mail, label: "Email", value: CONFIG.appContact.email, href: `mailto:${CONFIG.appContact.email}` },
+  { icon: Phone, label: "Телефон", value: CONFIG.appContact.phone, href: `tel:${CONFIG.appContact.phone}` },
+  { icon: Globe, label: "Сайт", value: CONFIG.appContact.website, href: CONFIG.appContact.website },
 ];
 
 export default function ContactsPage() {

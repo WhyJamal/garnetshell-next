@@ -1,10 +1,11 @@
 import { InfoPage } from "@/components/marketing/info-page";
+import { CONFIG } from "@/config/app.config";
 import { PAGES } from "@/config/pages.config";
 export default function DemoPage() { 
     return (
         <InfoPage 
             eyebrow="Демо" 
-            title="Посмотрим, как Narsil работает на вашей задаче." 
+            title={`Посмотрим, как ${CONFIG.appName} работает на вашей задаче.`} 
             description="Вместо абстрактной презентации разберём ваш процесс, покажем подходящий продукт и ответим на вопросы по запуску." 
             cta={{ label: "Запросить демо", href: PAGES.CONTACTS }} 
             items={[

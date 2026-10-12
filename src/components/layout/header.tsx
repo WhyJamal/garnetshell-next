@@ -71,7 +71,7 @@ export default function Header() {
                     <Link
                         href={PAGES.HOME}
                     >
-                        <Logo />
+                        <Logo size="sm"/>
                     </Link>
 
                     <DesktopNav

@@ -2,64 +2,56 @@
 
 import Image from "next/image";
 import { useTheme } from "next-themes";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
+
+import { CONFIG } from "@/config/app.config";
 
 export enum LogoType {
-    main = "MAIN",
-    secondary = "SECONDARY",
+  main = "MAIN",
+  secondary = "SECONDARY",
 }
 
 export type LogoSizeType = "sm" | "md" | "lg" | "xl";
 
 interface LogoProps {
-    logo?: LogoType;
-    size?: LogoSizeType;
+  logo?: LogoType;
+  size?: LogoSizeType;
 }
 
-export function Logo({
-    logo = LogoType.main,
-    size = "sm",
-}: LogoProps) {
-    const { resolvedTheme } = useTheme();
-    const [mounted, setMounted] = useState(false);
+const dimensions: Record<LogoSizeType, { width: number; height: number }> = {
+  sm: { width: 100, height: 100 },
+  md: { width: 180, height: 180 },
+  lg: { width: 280, height: 280 },
+  xl: { width: 800, height: 800 },
+};
 
-    useEffect(() => {
-        setMounted(true);
-    }, []);
+export function Logo({ logo = LogoType.main, size = "sm" }: LogoProps) {
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
-    const isDark = mounted ? resolvedTheme === "dark" : true;
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-    const src =
-        logo === LogoType.main
-            ? isDark
-                ? "/logos/narsil-white-logo.png"
-                : "/logos/narsil-logo.png"
-            : isDark
-                ? "/logos/n-white-logo.png"
-                : "/logos/n-logo.png";
+  const isDark = mounted && resolvedTheme === "dark";
 
-    const dimensions = useMemo(() => {
-        switch (size) {
-            case "sm":
-                return { width: 100, height: 100 };
-            case "md":
-                return { width: 180, height: 180 };
-            case "lg":
-                return { width: 280, height: 280 };
-            case "xl":
-                return { width: 800, height: 800 };
-            default:
-                return { width: 100, height: 100 };
-        }
-    }, [size]);
+  const src =
+    logo === LogoType.main
+      ? isDark
+        ? CONFIG.appWhiteLogo
+        : CONFIG.appDarkLogo
+      : isDark
+        ? CONFIG.appLogo
+        : CONFIG.appLogo;
 
-    return (
-        <Image
-            src={src}
-            alt="Narsil"
-            width={dimensions.width}
-            height={dimensions.height}
-            priority
-        />
-    );
+  return (
+    <Image
+      key={src}
+      src={src}
+      alt={CONFIG.appName}
+      width={dimensions[size].width}
+      height={dimensions[size].height}
+      priority
+    />
+  );
 }

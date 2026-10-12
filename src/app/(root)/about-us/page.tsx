@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Boxes, Cloud, LockKeyhole, Sparkles } from "lucide-react";
 import { PAGES } from "@/config/pages.config";
+import { CONFIG } from "@/config/app.config";
 
 const principles = [
   { icon: Boxes, title: "Единая экосистема", text: "Продукты работают как часть одной платформы, а не как набор разрозненных сервисов." },
@@ -19,7 +20,7 @@ export default function AboutUsPage() {
               Цифровые продукты для бизнеса, которые не мешают работать.
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-black/55 dark:text-white/55 sm:text-xl">
-              Narsil создаёт корпоративные SaaS-решения для управления процессами, людьми и данными — с простым интерфейсом и единым подходом к продукту.
+              {CONFIG.appName} создаёт корпоративные SaaS-решения для управления процессами, людьми и данными — с простым интерфейсом и единым подходом к продукту.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href={PAGES.PRODUCTS} className="inline-flex items-center gap-2 rounded-full bg-[#1d1d1f] px-5 py-3 text-sm font-medium text-white transition hover:bg-black/80 dark:bg-white dark:text-black dark:hover:bg-white/90">
