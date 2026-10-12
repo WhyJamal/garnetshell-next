@@ -2,6 +2,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
 import { useState } from "react";
 import { FAQ_ITEMS } from "@config/faq.config"
+import Link from "next/link";
+import { PAGES } from "@/config/pages.config";
 
 function FAQItem({
     item,
@@ -106,12 +108,15 @@ export function FAQ() {
                     className="mt-16 text-center"
                 >
                     <p className="text-black/50 mb-4 dark:text-white/50">Не нашли ответ на свой вопрос?</p>
-                    <a
-                        href="#"
-                        className="inline-flex items-center gap-2 rounded-full bg-black px-6 py-3 text-sm font-medium text-white transition-opacity hover:opacity-75"
+                    <Link
+                        href={PAGES.CONTACTS}
+                        className="inline-flex items-center gap-2 rounded-full bg-black dark:bg-white px-6 py-3 text-sm font-medium text-white dark:text-black transition-opacity hover:opacity-75"
+
                     >
+
                         Связаться с нами
-                    </a>
+
+                    </Link>
                 </motion.div>
 
             </div>

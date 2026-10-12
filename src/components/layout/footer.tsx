@@ -14,7 +14,7 @@ export function Footer() {
   };
 
   return (
-    <footer className="w-full border-t text-sm text-gray-500 dark:text-gray-400">
+    <footer className="w-full border-t text-sm text-gray-500 dark:text-white/70">
 
       <div className="hidden md:grid max-w-5xl mx-auto px-4 py-10 grid-cols-5 gap-8">
         
@@ -45,7 +45,7 @@ export function Footer() {
 
             <button
               onClick={() => toggle(index)}
-              className="w-full flex justify-between items-center px-4 py-1.5 text-left text-gray-900"
+              className="w-full flex justify-between items-center px-4 py-1.5 text-left text-gray-900 dark:text-white"
             >
               <span>{item.title}</span>
               <ChevronDown className={`w-5 text-gray-600 ${openIndex === index && "rotate-180"}`} />
