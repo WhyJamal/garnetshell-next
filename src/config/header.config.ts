@@ -12,7 +12,7 @@ export const menuItems: MenuItem[] = [
         links: [
           { title: "Продукты", href: PAGES.PRODUCTS },
           { title: "Функции", href: "/features" },
-          { title: "Интеграции", href: "/integrations" },
+          // { title: "Интеграции", href: "/integrations" },
           { title: "Безопасность", href: "/security" },
         ],
       },
@@ -25,19 +25,19 @@ export const menuItems: MenuItem[] = [
     ],
   },
 
-  {
-    label: "Решения",
-    columns: [
-      {
-        title: "Для бизнеса",
-        links: [
-          { title: "Малый бизнес", href: "/use/small-business" },
-          { title: "Средний бизнес", href: "/use/mid-market" },
-          { title: "Предприятия", href: "/use/enterprise" },
-        ],
-      },
-    ],
-  },
+  // {
+  //   label: "Решения",
+  //   columns: [
+  //     {
+  //       title: "Для бизнеса",
+  //       links: [
+  //         { title: "Малый бизнес", href: "/use/small-business" },
+  //         { title: "Средний бизнес", href: "/use/mid-market" },
+  //         { title: "Предприятия", href: "/use/enterprise" },
+  //       ],
+  //     },
+  //   ],
+  // },
 
   {
     label: "Цены",
@@ -80,12 +80,12 @@ export const menuItems: MenuItem[] = [
     label: "profile",
     columns: [
       {
-        title: "My Profile",
+        title: "Профиль",
         links: [
-          { title: "Orders", href: "/orders", icon: Package },
-          { title: "Your Saves", href: "/saves", icon: Bookmark },
-          { title: "Account", href: PAGES.ACCOUNT, icon: Settings },
-          { title: "Sign in", href: PAGES.SIGN_IN, icon: CircleUserRound },
+          // { title: "Заказы", href: "/orders", icon: Package },
+          // { title: "Сохраненные", href: "/saves", icon: Bookmark },
+          { title: "Аккаунт", href: PAGES.ACCOUNT, icon: Settings },
+          { title: "Войти", href: PAGES.SIGN_IN, icon: CircleUserRound },
         ],
       },
     ],

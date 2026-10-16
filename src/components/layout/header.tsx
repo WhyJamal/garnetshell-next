@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
+import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useHeaderMenu } from "@/components/hooks/use-header-menu";
 import { menuItems } from "@config/header.config";
@@ -50,6 +51,7 @@ export default function Header() {
         closeMobile,
         openMobileMenu,
         closeMobileMenu,
+        closeAll,
 
         onNavEnter,
         onNavLeave,
@@ -60,6 +62,12 @@ export default function Header() {
         onSearchOverlayEnter,
         onSearchOverlayLeave,
     } = useHeaderMenu({ menuItems: visibleMenuItems, closeDelay: 150 });
+
+    const pathname = usePathname();
+
+    useEffect(() => {
+        closeAll();
+    }, [pathname, closeAll]);
 
     return (
         <div className="sticky top-0 z-50">
@@ -95,6 +103,7 @@ export default function Header() {
                 activeItem={activeItem}
                 onMouseEnter={onDropdownEnter}
                 onMouseLeave={onDropdownLeave}
+                onLinkClick={closeAll}
             />
 
             <SearchOverlay
@@ -104,6 +113,7 @@ export default function Header() {
                 onClose={onSearchClick}
                 onMouseEnter={onSearchOverlayEnter}
                 onMouseLeave={onSearchOverlayLeave}
+                onLinkClick={closeAll}
             />
 
             {mobileOpen && (
@@ -114,6 +124,7 @@ export default function Header() {
                     onClose={closeMobile}
                     onOpenMenu={openMobileMenu}
                     onCloseMenu={closeMobileMenu}
+                    onLinkClick={closeAll}
                 />
             )}
 

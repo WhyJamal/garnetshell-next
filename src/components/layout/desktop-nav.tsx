@@ -23,7 +23,7 @@ export default function DesktopNav({
                         key={item.label}
                         onMouseEnter={() => onMouseEnter(item.label)}
                         onMouseLeave={onMouseLeave}
-                        className={`px-3 h-full text-[12px] transition-colors whitespace-nowrap ${
+                        className={`px-4 h-full text-[12px] transition-colors whitespace-nowrap ${
                             activeItem?.label === item.label
                                 ? "text-[#1d1d1f] dark:text-[#f5f5f7] dark:hover:text-[#6e6e73]"
                                 : activeItem

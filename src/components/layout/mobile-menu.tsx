@@ -11,6 +11,7 @@ interface MobileMenuProps {
     onClose: () => void;
     onOpenMenu: (label: string) => void;
     onCloseMenu: () => void;
+    onLinkClick?: () => void;
 }
 
 export default function MobileMenu({
@@ -20,6 +21,7 @@ export default function MobileMenu({
     onClose,
     onOpenMenu,
     onCloseMenu,
+    onLinkClick,
 }: MobileMenuProps) {
     return (
         <>
@@ -30,8 +32,7 @@ export default function MobileMenu({
             />
 
             <div
-                className="fixed inset-x-0 top-0 z-50 bg-white dark:bg-black flex flex-col overflow-hidden"
-                style={{ maxHeight: "80vh" }}
+                className="fixed inset-0 z-50 h-dvh bg-white dark:bg-black flex flex-col overflow-hidden"
             >
                 <div className="flex items-center justify-between px-4 py-2 shrink-0">
                     <button
@@ -49,7 +50,7 @@ export default function MobileMenu({
                     </button>
                 </div>
 
-                <div className="relative overflow-hidden animate-[slideDown_0.3s_cubic-bezier(0.4,0,0.2,1)]" style={{ overflowY: "auto" }}>
+                <div className="relative flex-1 min-h-0 overflow-hidden animate-[slideDown_0.3s_cubic-bezier(0.4,0,0.2,1)]" style={{ overflowY: "auto" }}>
 
                     <div
                         className={`transition-transform duration-300 ease-in-out ${
@@ -85,6 +86,7 @@ export default function MobileMenu({
                                             <Link
                                                 key={link.title}
                                                 href={link.href}
+                                                onClick={onLinkClick}
                                                 className="block py-1 text-md font-medium hover:text-gray-500 transition-colors"
                                             >
                                                 {link.title}

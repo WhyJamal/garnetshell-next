@@ -1,5 +1,6 @@
 import { CONFIG } from "@/config/app.config";
 import { PAGES } from "@/config/pages.config";
+import { Link2 } from "lucide-react";
 import Link from "next/link";
 export default function PrivacyPage() {
     return (
@@ -34,8 +35,8 @@ function LegalPage({ title, sections }: { title: string; sections: string[] }) {
                             </p>
                         </section>)}
                 </div>
-                <Link href={PAGES.CONTACTS} className="mt-10 inline-flex text-sm font-medium text-[#1D4ED8]">
-                    Связаться с нами
+                <Link href={PAGES.CONTACTS} className="mt-10 inline-flex text-sm font-medium text-[#1D4ED8] items-center gap-1.5">
+                    <Link2 /> Связаться с нами
                 </Link>
             </section>
         </main>

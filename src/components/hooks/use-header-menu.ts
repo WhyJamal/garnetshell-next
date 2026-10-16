@@ -149,6 +149,14 @@ export function useHeaderMenu({
     setActiveMobileMenu(null);
   }, []);
 
+  const closeAll = useCallback(() => {
+    clearCloseTimer();
+    unpinAll();
+    setActiveMenu(null);
+    setMobileOpen(false);
+    setActiveMobileMenu(null);
+  }, [clearCloseTimer, unpinAll]);
+
   const activeItem = useMemo(() => {
     return menuItems.find((m) => m.label === activeMenu) ?? null;
   }, [menuItems, activeMenu]);
@@ -177,6 +185,7 @@ export function useHeaderMenu({
     closeMobile,
     openMobileMenu,
     closeMobileMenu,
+    closeAll,
 
     onNavEnter,
     onNavLeave,

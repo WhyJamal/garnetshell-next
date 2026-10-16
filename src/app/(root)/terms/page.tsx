@@ -1,5 +1,6 @@
 import { CONFIG } from "@/config/app.config";
 import { PAGES } from "@/config/pages.config";
+import { Link2 } from "lucide-react";
 import Link from "next/link";
 
 export default function TermsPage() { 
@@ -18,8 +19,8 @@ export default function TermsPage() {
                 <div className="mt-12 space-y-8">
                     {["Общие условия","Аккаунты и доступ","Использование сервисов","Ответственность","Изменения условий"].map((s)=><section key={s}><h2 className="text-xl font-semibold">{s}</h2><p className="mt-2 text-sm leading-7 text-black/50 dark:text-white/50">Здесь будет размещена актуальная информация {CONFIG.appName} по этому разделу.</p></section>)}
                 </div>
-                <Link href={PAGES.CONTACTS} className="mt-10 inline-flex text-sm font-medium text-[#1D4ED8]">
-                    Связаться с нами
+                <Link href={PAGES.CONTACTS} className="mt-10 inline-flex text-sm font-medium text-[#1D4ED8] items-center gap-1.5">
+                    <Link2 /> Связаться с нами
                 </Link>
             </section>
         </main>

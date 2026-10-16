@@ -7,12 +7,14 @@ interface DropdownMenuProps {
     activeItem: MenuItem | null;
     onMouseEnter: () => void;
     onMouseLeave: () => void;
+    onLinkClick?: () => void;
 }
 
 export default function DropdownMenu({
     activeItem,
     onMouseEnter,
     onMouseLeave,
+    onLinkClick,
 }: DropdownMenuProps) {
     return (
         <>
@@ -53,6 +55,7 @@ export default function DropdownMenu({
                                                     <li key={link.title}>
                                                         <Link
                                                             href={link.href}
+                                                            onClick={onLinkClick}
                                                             className="block text-[#1d1d1f] hover:text-[#6e6e73] transition-colors dark:text-[#f5f5f7] dark:hover:text-[#6e6e73]"
                                                             style={{
                                                                 fontSize: "17px",

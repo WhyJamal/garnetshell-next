@@ -29,7 +29,7 @@ export function SupportCenter() {
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           placeholder="Поиск по темам поддержки..."
-          className="h-12 w-full rounded-full border border-black/10 bg-white pl-11 pr-5 text-sm outline-none shadow-sm transition focus:border-black/20 dark:border-white/10 ark:bg-white/4 dark:text-white dark:focus:border-white/20"
+          className="h-12 w-full rounded-full border border-black/10 pl-11 pr-5 text-sm outline-none shadow-sm transition focus:border-black/20 dark:border-white/10 ark:bg-white/4 dark:text-white dark:focus:border-white/20"
         />
       </div>
 
