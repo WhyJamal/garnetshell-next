@@ -58,7 +58,7 @@ export function CarouselPlugin({ isPlaying, onToggle }: CarouselPluginProps) {
                 </div>
 
                 <div className="px-3 py-2">
-                  <h3 className="text-sm font-semibold text-gray-900 truncate">
+                  <h3 className="text-sm font-semibold truncate">
                     {item.title}
                   </h3>
                   <p className="text-xs text-gray-500">

@@ -107,9 +107,11 @@ export default async function ERPProductsPage() {
                     </Link>
                   </Button>
 
-                  <Button size={"lg"} variant={"secondary"} className="rounded-full">
-                    Запросить демо <ArrowRight className="h-3.5 w-3.5" />
-                  </Button>
+                  <Link href={PAGES.CONTACTS} className="w-full sm:w-auto">
+                    <Button size={"lg"} variant={"secondary"} className="rounded-full">
+                      Запросить демо <ArrowRight className="h-3.5 w-3.5" />
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </div>
