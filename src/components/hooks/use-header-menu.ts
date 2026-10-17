@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { MenuItem } from "@/types/header.types"
 
+export type MobileView = "menu" | "profile" | "search";
+
 type UseHeaderMenuProps = {
   menuItems: MenuItem[];
   closeDelay?: number;
@@ -14,6 +16,7 @@ export function useHeaderMenu({
 }: UseHeaderMenuProps) {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileView, setMobileView] = useState<MobileView>("menu");
   const [activeMobileMenu, setActiveMobileMenu] = useState<string | null>(null);
   const [profilePinned, setProfilePinned] = useState(false);
   const [searchPinned, setSearchPinned] = useState(false);
@@ -131,7 +134,9 @@ export function useHeaderMenu({
   }, [unpinAll, handleDropdownMouseLeave]);
 
   // Mobile
-  const openMobile = useCallback(() => {
+  const openMobile = useCallback((view: MobileView = "menu") => {
+    setMobileView(view);
+    setActiveMobileMenu(null);
     setMobileOpen(true);
     unpinAll();
   }, [unpinAll]);
@@ -140,6 +145,15 @@ export function useHeaderMenu({
     setMobileOpen(false);
     setActiveMobileMenu(null);
   }, []);
+
+  // Tap on hamburger / profile / search on phones: same view -> close, other view -> switch
+  const toggleMobile = useCallback((view: MobileView) => {
+    if (mobileOpen && mobileView === view) {
+      closeMobile();
+    } else {
+      openMobile(view);
+    }
+  }, [mobileOpen, mobileView, openMobile, closeMobile]);
 
   const openMobileMenu = useCallback((label: string) => {
     setActiveMobileMenu(label);
@@ -176,6 +190,7 @@ export function useHeaderMenu({
     activeMenu,
     activeItem,
     mobileOpen,
+    mobileView,
     activeMobileMenu,
     activeMobileItem,
     profilePinned,
@@ -183,6 +198,7 @@ export function useHeaderMenu({
 
     openMobile,
     closeMobile,
+    toggleMobile,
     openMobileMenu,
     closeMobileMenu,
     closeAll,

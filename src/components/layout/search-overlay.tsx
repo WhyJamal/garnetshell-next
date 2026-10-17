@@ -8,13 +8,13 @@ import { ArrowRight } from "lucide-react";
 import { menuItems } from "@config/header.config";
 import { PAGES } from "@/config/pages.config";
 
-interface SearchItem {
+export interface SearchItem {
     title: string;
     href: string;
     group: string;
 }
 
-const SEARCH_ITEMS: SearchItem[] = (() => {
+export const SEARCH_ITEMS: SearchItem[] = (() => {
     const seen = new Set<string>();
     const list: SearchItem[] = [];
 
@@ -41,7 +41,7 @@ const SEARCH_ITEMS: SearchItem[] = (() => {
 
 const QUICK_HREFS: string[] = [PAGES.PRODUCTS, PAGES.PRICING, "/features", PAGES.SUPPORT];
 
-const QUICK_LINKS: SearchItem[] = SEARCH_ITEMS.filter((i) => QUICK_HREFS.includes(i.href));
+export const QUICK_LINKS: SearchItem[] = SEARCH_ITEMS.filter((i) => QUICK_HREFS.includes(i.href));
 
 interface SearchOverlayProps {
     isOpen: boolean;

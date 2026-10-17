@@ -13,6 +13,7 @@ import SearchOverlay from "./search-overlay";
 import Link from "next/link";
 import { PAGES } from "@/config/pages.config";
 import { Logo } from "../logo";
+import { useMobile } from "@hooks/use-mobile";
 
 export default function Header() {
 
@@ -42,13 +43,14 @@ export default function Header() {
         activeMenu,
         activeItem,
         mobileOpen,
+        mobileView,
         activeMobileMenu,
         activeMobileItem,
         profilePinned,
         searchPinned,
 
-        openMobile,
         closeMobile,
+        toggleMobile,
         openMobileMenu,
         closeMobileMenu,
         closeAll,
@@ -62,6 +64,16 @@ export default function Header() {
         onSearchOverlayEnter,
         onSearchOverlayLeave,
     } = useHeaderMenu({ menuItems: visibleMenuItems, closeDelay: 150 });
+
+    const isMobile = useMobile(767);
+
+    const handleProfileClick = () => (isMobile ? toggleMobile("profile") : onProfileClick());
+    const handleSearchClick = () => (isMobile ? toggleMobile("search") : onSearchClick());
+
+    // leaving phone width -> drop the full-screen panel
+    useEffect(() => {
+        if (!isMobile) closeMobile();
+    }, [isMobile, closeMobile]);
 
     const pathname = usePathname();
 
@@ -92,9 +104,11 @@ export default function Header() {
                     <HeaderIcons
                         profilePinned={profilePinned}
                         searchPinned={searchPinned}
-                        onProfileClick={onProfileClick}
-                        onSearchClick={onSearchClick}
-                        onMobileOpen={openMobile}
+                        mobileOpen={mobileOpen}
+                        mobileView={mobileView}
+                        onProfileClick={handleProfileClick}
+                        onSearchClick={handleSearchClick}
+                        onMobileToggle={() => (mobileOpen ? closeMobile() : toggleMobile("menu"))}
                     />
                 </div>
             </nav>
@@ -116,17 +130,19 @@ export default function Header() {
                 onLinkClick={closeAll}
             />
 
-            {mobileOpen && (
-                <MobileMenu
-                    menuItems={visibleMenuItems}
-                    activeMobileMenu={activeMobileMenu}
-                    activeMobileItem={activeMobileItem}
-                    onClose={closeMobile}
-                    onOpenMenu={openMobileMenu}
-                    onCloseMenu={closeMobileMenu}
-                    onLinkClick={closeAll}
-                />
-            )}
+            <MobileMenu
+                open={mobileOpen}
+                view={mobileView}
+                query={query}
+                onQueryChange={setQuery}
+                menuItems={visibleMenuItems}
+                activeMobileMenu={activeMobileMenu}
+                activeMobileItem={activeMobileItem}
+                onClose={closeMobile}
+                onOpenMenu={openMobileMenu}
+                onCloseMenu={closeMobileMenu}
+                onLinkClick={closeAll}
+            />
 
         </div>
     );
