@@ -75,12 +75,12 @@ export function CarouselPlugin({ isPlaying, onToggle }: CarouselPluginProps) {
       <div className="flex sm:hidden justify-start mt-4 pl-5">
         <button
           onClick={onToggle}
-          className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-black text-black"
+          className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-black text-black dark:border-white dark:text-white"
         >
           {isPlaying ? (
-            <Pause fill="#000" className="h-3 w-3" />
+            <Pause className="h-3 w-3 fill-black dark:fill-white" />
           ) : (
-            <Play fill="#000" className="h-3 w-3 translate-x-0.5" />
+            <Play className="h-3 w-3 translate-x-0.5 fill-black dark:fill-white" />
           )}
         </button>
       </div>
