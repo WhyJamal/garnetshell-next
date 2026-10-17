@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, CalendarDays, Tag } from "lucide-react";
 import { SolutionSection } from "@/components/product/solution-section";
 import Link from "next/link";
-import { PricingSection } from "@components/product/pricing-section";
+import { PricingSection } from "@/components/prising/pricing-section";
 import { PAGES } from "@/config/pages.config";
 
 interface ProductClientProps {

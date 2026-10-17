@@ -43,9 +43,20 @@ export async function purchaseProductAction(formData: FormData) {
   const productId = normalizeText(formData.get("productId"));
   const pricingPlanId = normalizeText(formData.get("pricingPlanId"));
   const shopName = normalizeText(formData.get("organizationName"));
+  const requestId = normalizeText(formData.get("requestId"));
 
   if (!productId) {
     throw new Error("Mahsulot tanlanmagan");
+  }
+
+  if (requestId) {
+    const existing = await prisma.project.findUnique({
+      where: { requestId },
+      select: { id: true },
+    });
+    if (existing) {
+      redirect(`${PAGES.ACCOUNT_PROJECTS}?purchased=1`);
+    }
   }
 
   const product = await prisma.product.findUnique({
@@ -145,18 +156,41 @@ export async function purchaseProductAction(formData: FormData) {
       ? computeEndsAt(plan.billingPeriod, new Date())
       : null;
 
-  const project = await prisma.project.create({
-    data: {
+  const recentDuplicate = await prisma.project.findFirst({
+    where: {
       organizationId: organization.id,
       productId: product.id,
       pricingPlanId: plan?.id ?? null,
-      name: projectName,
-      status: "ACTIVE",
-      slug,
-      startsAt: new Date(),
-      endsAt,
+      createdAt: { gte: new Date(Date.now() - 15_000) }, // oxirgi 15 soniya
     },
+    select: { id: true },
   });
+
+  if (recentDuplicate) {
+    redirect(`${PAGES.ACCOUNT_PROJECTS}?purchased=1`);
+  }
+
+  let project;
+  try {
+    project = await prisma.project.create({
+      data: {
+        organizationId: organization.id,
+        productId: product.id,
+        pricingPlanId: plan?.id ?? null,
+        name: projectName,
+        status: "ACTIVE",
+        slug,
+        startsAt: new Date(),
+        endsAt,
+        requestId: requestId || null,
+      },
+    });
+  } catch (e) {
+    if ((e as { code?: string })?.code === "P2002") {
+      redirect(`${PAGES.ACCOUNT_PROJECTS}?purchased=1`);
+    }
+    throw e;
+  }
 
   // Tashqi ilovaga (masalan Vol-mart) avtomatik tashkilot ochib berish
   if (product.appProvisionUrl) {
@@ -175,6 +209,7 @@ export async function purchaseProductAction(formData: FormData) {
           ownerEmail: user.email,
           expiresAt: endsAt?.toISOString() ?? null,
         }),
+        signal: AbortSignal.timeout(10_000),
       });
 
       if (res.ok) {

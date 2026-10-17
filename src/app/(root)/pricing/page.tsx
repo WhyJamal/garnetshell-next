@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { getPricingProductsAction } from "@/actions/saas.actions";
-import { PricingSection } from "@/components/product/pricing-section";
+import { PricingSection } from "@/components/prising/pricing-section";
 import { Button } from "@/components/ui/button";
 import { PAGES } from "@/config/pages.config";
 import type { IProduct } from "@/types/product.types";
